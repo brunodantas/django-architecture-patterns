@@ -2,7 +2,8 @@
 Models for the work action context boundary.
 """
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 
 @dataclass
@@ -32,6 +33,7 @@ class WorkItem:
     notes: str = ""
     assignee: Agent | None = None
     is_completed: bool = False
+    dependencies: List["WorkItem"] = field(default_factory=list)
 
     def __str__(self) -> str:
         return self.title

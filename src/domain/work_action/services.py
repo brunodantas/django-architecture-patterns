@@ -35,5 +35,9 @@ def complete_work_item(
         raise ValueError("Only agents can complete work items.")
     if agent != work_item.assignee:
         raise ValueError("Only the assignee can complete the work item.")
+    if any(not dependency.is_completed for dependency in work_item.dependencies):
+        raise ValueError(
+            "All dependencies must be completed before completing this work item."
+        )
     work_item.is_completed = True
     return work_item

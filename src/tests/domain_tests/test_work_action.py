@@ -17,7 +17,7 @@ def test_add_notes():
     assert result.notes == "Too easy."
 
 
-def complete_work_item():
+def test_complete_work_item():
     agent = models.Agent(agent_id="a1")
     work_item = models.WorkItem(work_item_id="wi1", title="Work Item 1", assignee=agent)
     result = services.complete_work_item(agent, work_item)
