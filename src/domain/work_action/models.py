@@ -15,12 +15,6 @@ class Agent:
 
     agent_id: str
 
-    def __str__(self) -> str:
-        return self.agent_id
-
-    def __repr__(self) -> str:
-        return f"Agent(agent_id={self.agent_id})"
-
 
 @dataclass
 class WorkItem:
@@ -34,9 +28,3 @@ class WorkItem:
     assignee: Agent | None = None
     is_completed: bool = False
     dependencies: List["WorkItem"] = field(default_factory=list)
-
-    def __str__(self) -> str:
-        return self.title
-
-    def __repr__(self) -> str:
-        return f"WorkItem(work_item_id={self.work_item_id}, title={self.title}, notes={self.notes}, assignee={self.assignee}, is_completed={self.is_completed})"
