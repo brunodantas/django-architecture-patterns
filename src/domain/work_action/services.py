@@ -3,10 +3,14 @@ Services for the work action context boundary.
 """
 
 from domain.work_action import models
+from domain.work_action import repositories
 
 
 def add_notes(
-    agent: models.Agent, work_item: models.WorkItem, notes: str
+    agent: models.Agent,
+    work_item: models.WorkItem,
+    notes: str,
+    work_item_repository: repositories.BaseWorkItemRepository,
 ) -> models.WorkItem:
     """
     Adds notes to a work item.
@@ -20,11 +24,14 @@ def add_notes(
     if not isinstance(notes, str) or not notes:
         raise ValueError("Notes must be a non-empty string.")
     work_item.notes = notes
+    work_item_repository.save(work_item)
     return work_item
 
 
 def complete_work_item(
-    agent: models.Agent, work_item: models.WorkItem
+    agent: models.Agent,
+    work_item: models.WorkItem,
+    work_item_repository: repositories.BaseWorkItemRepository,
 ) -> models.WorkItem:
     """
     Marks a work item as completed.
@@ -40,4 +47,5 @@ def complete_work_item(
             "All dependencies must be completed before completing this work item."
         )
     work_item.is_completed = True
+    work_item_repository.save(work_item)
     return work_item
