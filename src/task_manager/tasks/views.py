@@ -4,15 +4,16 @@ from tasks.models import Task
 
 
 def get_task_details(request, task_id):
-    try:
-        task = Task.objects.get(id=task_id)
-        return JsonResponse(
-            {
-                "id": task.id,
-                "title": task.title,
-                "description": task.description,
-                "completed": task.completed,
-            }
-        )
-    except Task.DoesNotExist:
+    task = get_task(task_id)
+    if not task:
         return JsonResponse({"error": "Task not found"}, status=404)
+    return JsonResponse(
+        {
+            "task": task.title,
+            "description": task.description,
+            "cost": task.cost,
+            "completed": task.completed,
+            "created_at": task.created_at,
+            "updated_at": task.updated_at,
+        }
+    )
