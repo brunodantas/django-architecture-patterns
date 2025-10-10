@@ -1,6 +1,11 @@
+from core.repositories import BaseRepository
 from django.db import models
-
 from executors.models import UserExecutor
+
+
+class TaskManager(models.Manager):
+    def get_by_id_from_repository(self, repository: BaseRepository, task_id: int):
+        return repository[task_id]
 
 
 class Task(models.Model):
@@ -14,8 +19,7 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"{self.title} (Cost: {self.cost}, Completed: {self.completed})"
+    objects = TaskManager()
 
 
 class Dependency(models.Model):
