@@ -1,19 +1,11 @@
 from django.http import JsonResponse
 
-from tasks.models import Task
+from tasks.services import assign_task_to_executor
 
 
-def get_task_details(request, task_id):
-    task = get_task(task_id)
-    if not task:
-        return JsonResponse({"error": "Task not found"}, status=404)
-    return JsonResponse(
-        {
-            "task": task.title,
-            "description": task.description,
-            "cost": task.cost,
-            "completed": task.completed,
-            "created_at": task.created_at,
-            "updated_at": task.updated_at,
-        }
-    )
+def asssign_task(task_id: int):
+    try:
+        assign_task_to_executor(task_id)
+    except ValueError as e:
+        return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"message": "Task assigned successfully."})
