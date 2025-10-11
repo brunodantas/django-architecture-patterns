@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     "tasks",
     "profiles",
     "executors",
+    "core",
+    "notifications",
 ]
 
 MIDDLEWARE = [
