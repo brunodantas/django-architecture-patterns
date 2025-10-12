@@ -5,16 +5,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('executors', '0001_initial'),
-        ('tasks', '0001_initial'),
+        ("executors", "0001_initial"),
+        ("tasks", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='task',
-            name='assignee',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='tasks', to='executors.userexecutor'),
+            model_name="task",
+            name="assignee",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                related_name="tasks",
+                to="executors.userexecutor",
+            ),
         ),
     ]

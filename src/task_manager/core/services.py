@@ -1,5 +1,7 @@
 import random
 
+from core.signals import assign_task
+from django.dispatch import receiver
 from executors.models import UserExecutor
 from tasks.models import Task
 from tasks.signals import task_assigned
@@ -12,7 +14,8 @@ def get_available_executors():
     return UserExecutor.objects.exclude(id__in=list(busy_executors))
 
 
-def assign_task_to_executor(task_id: int):
+@receiver(assign_task)
+def assign_task_to_executor(sender, task_id: int, **kwargs):
     try:
         task = Task.objects.get(id=task_id)
     except Task.DoesNotExist:

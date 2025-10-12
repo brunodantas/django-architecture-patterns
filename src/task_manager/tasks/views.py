@@ -1,18 +1,8 @@
 from django.http import JsonResponse
 
-from tasks.models import Task
+from tasks.signals import fetch_task_details
 
 
 def get_task_details(request, task_id):
-    try:
-        task = Task.objects.get(id=task_id)
-        return JsonResponse(
-            {
-                "id": task.id,
-                "title": task.title,
-                "description": task.description,
-                "completed": task.completed,
-            }
-        )
-    except Task.DoesNotExist:
-        return JsonResponse({"error": "Task not found"}, status=404)
+    result = fetch_task_details.send(sender=get_task_details, task_id=task_id)
+    return JsonResponse(result[0][1])

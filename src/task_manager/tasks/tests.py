@@ -3,6 +3,7 @@ from django.test import Client
 from django.urls import reverse
 
 from tasks.models import Task
+from tasks.signal_receivers import fetch_task_details
 
 
 @pytest.mark.django_db
@@ -13,7 +14,7 @@ def test_view_task_details():
     assert response.status_code == 200
     assert response.json() == {
         "id": task.id,
-        "title": "Sample Task", 
+        "title": "Sample Task",
         "description": "Too easy",
         "completed": False,
     }
