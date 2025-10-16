@@ -1,11 +1,11 @@
 from django.http import JsonResponse
 
-from tasks.models import Task
+from tasks.repositories import TaskRepository
 
 
 def get_task_details(request, task_id):
     try:
-        task = Task.objects.get(id=task_id)
+        task = TaskRepository()[task_id]
         return JsonResponse(
             {
                 "id": task.id,
@@ -14,5 +14,5 @@ def get_task_details(request, task_id):
                 "completed": task.completed,
             }
         )
-    except Task.DoesNotExist:
+    except KeyError:
         return JsonResponse({"error": "Task not found"}, status=404)
